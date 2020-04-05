@@ -1,5 +1,7 @@
 import React from 'react';
 import './App.css';
+import { Grid, Button, Card, CardContent, Typography } from '@material-ui/core';
+import { ImageCard } from './components/ImageCard';
 
 class App extends React.Component {
   state = {
@@ -47,24 +49,46 @@ class App extends React.Component {
     let originalImg, resizedImg;
 
     if (original) {
-      originalImg = <img style="width: 100%" src={this.imageEncode(original.data)} />
+      originalImg = <ImageCard label={'Original:'} src={this.imageEncode(original.data)} />
     }
     if (resized) {
-      resizedImg = <img style="width: 100%" src={this.imageEncode(resized.data)} />
+      resizedImg = <ImageCard label={'Resized:'} src={this.imageEncode(resized.data)} />
     }
 
     return (
       <div className="App">
-        <input type="file" name="image" onChange={this.onChangeHandler} />
-        <button onClick={this.onClickHandler}>Upload</button>
+        <Grid
+          container
+          direction="row"
+          justify="center"
+          alignItems="center"
+        >
 
-        <div>
-          <span>Original: </span>
-          {originalImg}
+          <Grid item
+            xs={12}
+            justify="center"
+            alignItems="center"
+            spacing={3}
+            style={{ paddingBottom: '2%' }}
+          >
+            <Card>
+              <CardContent>
+                <input type="file" name="image" onChange={this.onChangeHandler} />
+                <Button variant="contained"
+                  color="primary"
+                  onClick={this.onClickHandler}>
+                  Upload
+                </Button>
+              </CardContent>
 
-          <span>Resized: </span>
-          {resizedImg}
-        </div>
+            </Card>
+          </Grid>
+
+          <div>
+            {originalImg}
+            {resizedImg}
+          </div>
+        </Grid>
       </div>
     );
   }
