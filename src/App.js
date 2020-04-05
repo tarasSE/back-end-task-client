@@ -10,7 +10,6 @@ class App extends React.Component {
     const files = event.target.files;
     if (!files) return;
 
-    console.log(files[0])
     this.setState({
       selectedFile: files[0],
       loaded: 0,
@@ -30,7 +29,6 @@ class App extends React.Component {
     });
 
     const json = await rawResponse.json();
-    console.log(json);
 
     this.setState({
       original: json.original,
@@ -39,9 +37,8 @@ class App extends React.Component {
   }
 
   imageEncode(arrayBuffer) {
-    let u8 = new Uint8Array(arrayBuffer)
-    let b64encoded = btoa([].reduce.call(new Uint8Array(arrayBuffer), function (p, c) { return p + String.fromCharCode(c) }, ''))
-    let mimetype = "image/jpeg"
+    const b64encoded = btoa([].reduce.call(new Uint8Array(arrayBuffer), (p, c) => { return p + String.fromCharCode(c) }, ''))
+    const mimetype = "image/jpeg"
     return "data:" + mimetype + ";base64," + b64encoded
   }
 
@@ -50,10 +47,10 @@ class App extends React.Component {
     let originalImg, resizedImg;
 
     if (original) {
-      originalImg = <img src={this.imageEncode(original.data)} />
+      originalImg = <img style="width: 100%" src={this.imageEncode(original.data)} />
     }
     if (resized) {
-      resizedImg = <img src={this.imageEncode(resized.data)} />
+      resizedImg = <img style="width: 100%" src={this.imageEncode(resized.data)} />
     }
 
     return (
@@ -62,7 +59,10 @@ class App extends React.Component {
         <button onClick={this.onClickHandler}>Upload</button>
 
         <div>
+          <span>Original: </span>
           {originalImg}
+
+          <span>Resized: </span>
           {resizedImg}
         </div>
       </div>
